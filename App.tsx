@@ -4,7 +4,7 @@ import React from 'react'
 const App = () => {
   return (
     <View>
-      <Text>App LoveDrop</Text>
+      <Text>App LoveDrop from master</Text>
     </View>
   )
 }
