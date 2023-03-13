@@ -1,11 +1,14 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
-export type AuthStackParamList={
-    AuthScreen:undefined,
-    SignInScreen:undefined,
-    SignUpScreen:undefined,
-    MobileNumberScreen:undefined,
-    OTPCodeScreen:{number:string},
-}
+export type AuthStackParamList = {
+  AuthScreen: undefined;
+  SignInScreen: undefined;
+  SignUpScreen: undefined;
+  MobileNumberScreen: undefined;
+  OTPCodeScreen: {number: string};
+  EmailScreen: undefined;
+  FirstNameScreen: undefined;
+  BirthdayScreen:undefined;
+};
 
 export type RootStackParamList = {
   AuthStack: NavigatorScreenParams<AuthStackParamList>,

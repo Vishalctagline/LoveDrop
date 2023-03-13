@@ -12,8 +12,8 @@ export const FontSizes = StyleSheet.create({
     fontWeight: '400',
   },
   formHeader: {
-    fontSize: RFValue(25),
-    fontFamily: 'Inter-Regular',
+    fontSize: RFValue(30),
+    fontFamily: 'PublicSans-Regular',
     color: Colors.black,
     fontWeight: '700',
   },

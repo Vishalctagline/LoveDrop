@@ -1,5 +1,5 @@
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import CustomHeader from '../../components/CustomHeader';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
@@ -8,12 +8,21 @@ import { AppStrings } from '../../utils/AppStrings';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import { FontSizes } from '../../utils/Fontsizes';
 import { Colors } from '../../styles/Colors';
+import CustomOTPInput from '../../components/CustomOTPInput';
 
 const OTPCodeScreen = () => {
+
+  const [otp, setotp] = useState('');
+  const [otpError, setotpError] = useState('');
     const {navigation,route} = useCustomAuthNavigation('OTPCodeScreen');
 
-    console.log(route.params?.number);
+    // console.log(route.params?.number);
     let number = route.params?.number;
+
+    useEffect(() => {
+      setotp('')
+      setotpError('')
+    }, []);
 
   return (
     <View style={GlobalStyles.mainContainer}>
@@ -22,15 +31,35 @@ const OTPCodeScreen = () => {
           navigation.goBack();
         }}
       />
-      <KeyboardAvoidingView behavior={'height'} style={{flex: 1}}>
-        <View style={{paddingHorizontal: wp(10)}}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'height' : 'padding'}
+        style={{flex: 1}}>
+        <View style={GlobalStyles.formHeaderContainer}>
           <Text style={FontSizes.formHeader}>{AppStrings.myCode}</Text>
-          <Text style={{...FontSizes.infoText,color:Colors.grey,marginVertical:wp(2)}}>{number} <Text style={{color:Colors.black}}>{AppStrings.resend}</Text></Text>
+          <Text
+            style={{
+              ...FontSizes.infoText,
+              color: Colors.grey,
+              marginVertical: wp(2),
+            }}>
+            {number}{' '}
+            <Text style={{color: Colors.black}}>{AppStrings.resend}</Text>
+          </Text>
+          <CustomOTPInput onChangeText={setotp} />
+          <Text style={FontSizes.errorText}>{otpError}</Text>
         </View>
         <View style={GlobalStyles.floatingBtnContainer}>
           <CustomSecondarybutton
             title={AppStrings.continue}
-            onPress={() => {}}
+            onPress={() => {
+              console.log(otp);
+              if (!otp) {
+                setotpError(AppStrings.otpError);
+              } else {
+                setotpError('');
+                navigation.navigate('EmailScreen');
+              }
+            }}
           />
         </View>
       </KeyboardAvoidingView>

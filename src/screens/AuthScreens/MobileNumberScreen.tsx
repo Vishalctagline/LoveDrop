@@ -1,5 +1,5 @@
 import {View, Text, KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import CustomHeader from '../../components/CustomHeader';
 import {GlobalStyles} from '../../styles/GlobalStyles';
 import {AppStrings} from '../../utils/AppStrings';
@@ -19,7 +19,14 @@ const MobileNumberScreen = () => {
 
   const {navigation} = useCustomAuthNavigation('MobileNumberScreen');
 
-  
+  useEffect(() => {
+    navigation.addListener('focus',()=>{
+      // setphoneNum('')
+      setphoneNumError('')
+    })
+    // setphoneNum('');
+    setphoneNumError('');
+  }, []);
 
   return (
     <View style={GlobalStyles.mainContainer}>
@@ -35,7 +42,7 @@ const MobileNumberScreen = () => {
             ref={phone}
             textContainerStyle={{backgroundColor: Colors.white}}
             textInputStyle={{borderBottomWidth: 1}}
-            placeholder={' '}
+            // placeholder={' '}
             // containerStyle={{marginVertical: wp(5)}}
             onChangeText={val => {
               setphoneNum(val);
@@ -49,12 +56,14 @@ const MobileNumberScreen = () => {
           <CustomSecondarybutton
             title={AppStrings.continue}
             onPress={() => {
+              console.log(phoneNum);
               console.log(phone.current?.isValidNumber(phoneNum));
               if (!phone.current?.isValidNumber(phoneNum)) {
                 setphoneNumError(AppStrings.phoneNumError);
-              }else{
-                navigation.navigate ('OTPCodeScreen',{
-                  number:phoneNum
+              } else {
+                setphoneNumError('');
+                navigation.navigate('OTPCodeScreen', {
+                  number: phoneNum,
                 });
               }
             }}
