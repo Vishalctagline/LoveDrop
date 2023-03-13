@@ -1,0 +1,16 @@
+export const AppStrings={
+    byTapping:"By tapping Create Account or Sign In, you agree to our ",
+    terms:"Terms.",
+    learnHow:" Learn how we process your data in our ",
+    privacypolicy:"Privacy Policy ",
+    and:"and",
+    cokkiesPolicy:" Cookies Policy",
+    createAccount:'CREATE ACCOUNT',
+    signIn:'SIGN IN',
+    myNumber:"My Number is",
+    weWillSendCode:'We will send a text with a verification code. Message and data rates may apply.',
+    continue:'CONTINUE',
+    phoneNumError:'* Please enter valid Phone Number',
+    myCode:"My Code is",
+    resend:'Resend',
+}

@@ -1,12 +1,21 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import {View, Text, SafeAreaView, StatusBar} from 'react-native';
+import React, {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
+import {NavigationContainer} from '@react-navigation/native';
+import RootStack from './src/navigation/RootStack/RootStack';
 
 const App = () => {
-  return (
-    <View>
-      <Text>App LoveDrop from Development</Text>
-    </View>
-  )
-}
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
-export default App
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
+    </SafeAreaView>
+  );
+};
+
+export default App;
