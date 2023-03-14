@@ -6,15 +6,16 @@ import { GlobalStyles } from '../styles/GlobalStyles'
 
 interface Props {
   title?: string;
-  onPress?:()=>void;
+  onPress?: () => void;
+  back: boolean
 }
 
-const CustomHeader: React.FC<Props> = ({title, onPress}) => {
+const CustomHeader: React.FC<Props> = ({ title, onPress, back }) => {
   return (
     <View style={GlobalStyles.headerContainer}>
-      <TouchableWithoutFeedback onPress={onPress}>
+      {back && <TouchableWithoutFeedback onPress={onPress}>
         <Image source={Images.back} style={styles.img} />
-      </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>}
       <Text>{title}</Text>
     </View>
   );
@@ -23,9 +24,9 @@ const CustomHeader: React.FC<Props> = ({title, onPress}) => {
 export default CustomHeader
 
 const styles = StyleSheet.create({
-    img:{
-        height:wp(8),
-        width:wp(8),
-        resizeMode:'contain'
-    }
+  img: {
+    height: wp(8),
+    width: wp(8),
+    resizeMode: 'contain'
+  }
 })

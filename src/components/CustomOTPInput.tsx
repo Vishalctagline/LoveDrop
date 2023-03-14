@@ -1,12 +1,13 @@
-import {StyleSheet,  TextInput, View} from 'react-native';
-import React, {useRef, useState} from 'react';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { StyleSheet, TextInput, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 interface Props {
-  onChangeText: (val:string)=>void;
+  onChangeText: (val: string) => void;
 }
 
-const CustomOTPInput: React.FC<Props> = ({onChangeText}) => {
+const CustomOTPInput: React.FC<Props> = ({ onChangeText }) => {
 
   const inpt1 = useRef<TextInput>(null);
   const inpt2 = useRef<TextInput>(null);
@@ -121,11 +122,12 @@ const CustomOTPInput: React.FC<Props> = ({onChangeText}) => {
 export default CustomOTPInput;
 
 const styles = StyleSheet.create({
-  container: {flexDirection: 'row', justifyContent: 'space-evenly'},
+  container: { flexDirection: 'row', justifyContent: 'space-evenly' },
   input: {
     borderBottomWidth: 1,
     width: wp(8),
     marginVertical: wp(8),
     textAlign: 'center',
+    ...GlobalStyles.inputText
   },
 });

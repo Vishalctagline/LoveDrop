@@ -16,7 +16,7 @@ export const AppStrings = {
   resend: 'Resend',
   otpError: '* Please enter valid OTP Code',
   whatsYourEmail: "What's your email?",
-  dontLose: "Don't lose access to your account,verify your email.",
+  dontLoseAccess: "Don't lose access to your account,verify your email.",
   enterEmail: 'Enter email',
   emailError: '* Please enter valid Email',
   myFirstName: 'My first name is',
@@ -24,4 +24,14 @@ export const AppStrings = {
   firstName: 'First Name',
   nameError: '* Please enter valid Name',
   birthDate: 'My birthday is',
+  iam: 'I am a',
+  male: 'Male',
+  female: 'Female',
+  other: 'Other',
+  getStared: 'GET STARTED',
+  reveal: 'REVEAL',
+  welcomeTo: 'Welcome to ',
+  connectContact: 'Connect your contacts',
+  dontLose: 'Don’t lose.'
+
 };

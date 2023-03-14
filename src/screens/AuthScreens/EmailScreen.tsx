@@ -5,36 +5,37 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {GlobalStyles} from '../../styles/GlobalStyles';
+import React, { useState } from 'react';
+import { GlobalStyles } from '../../styles/GlobalStyles';
 import CustomHeader from '../../components/CustomHeader';
-import {useCustomAuthNavigation} from '../../navigation/hooks/useCustomNavigation';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {FontSizes} from '../../utils/Fontsizes';
-import {AppStrings} from '../../utils/AppStrings';
+import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FontSizes } from '../../utils/Fontsizes';
+import { AppStrings } from '../../utils/AppStrings';
 import CustomSecondarybutton from '../../components/CustomSecondarybutton';
-import {Colors} from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 import CustomTextInput from '../../components/CustomTextInput';
 
 const EmailScreen = () => {
   const [email, setemail] = useState('');
   const [emailError, setemailError] = useState('');
-  const {navigation, route} = useCustomAuthNavigation('EmailScreen');
+  const { navigation, route } = useCustomAuthNavigation('EmailScreen');
 
   return (
     <View style={GlobalStyles.mainContainer}>
       <CustomHeader
+        back
         onPress={() => {
           navigation.goBack();
         }}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'height' : 'padding'}
-        style={{flex: 1}}>
-        <View style={{paddingHorizontal: wp(10)}}>
-          <Text style={FontSizes.formHeader}>{AppStrings.whatsYourEmail}</Text>
-          <Text style={{...FontSizes.infoText, color: Colors.grey}}>
-            {AppStrings.dontLose}
+        style={{ flex: 1 }}>
+        <View style={GlobalStyles.formHeaderContainer}>
+          <Text style={GlobalStyles.formHeader}>{AppStrings.whatsYourEmail}</Text>
+          <Text style={{ ...GlobalStyles.infoText, color: Colors.grey }}>
+            {AppStrings.dontLoseAccess}
           </Text>
           <CustomTextInput
             placeholder={AppStrings.enterEmail}
@@ -43,17 +44,17 @@ const EmailScreen = () => {
               setemail(val);
             }}
           />
-          <Text style={FontSizes.errorText}>{emailError}</Text>
+          <Text style={GlobalStyles.errorText}>{emailError}</Text>
         </View>
         <View style={GlobalStyles.floatingBtnContainer}>
           <CustomSecondarybutton
             title={AppStrings.continue}
             onPress={() => {
-                let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+              let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
               if (!reg.test(email)) {
-                  setemailError(AppStrings.emailError)
-              }else{
-                  navigation.navigate('FirstNameScreen')
+                setemailError(AppStrings.emailError)
+              } else {
+                navigation.navigate('FirstNameScreen')
               }
             }}
           />

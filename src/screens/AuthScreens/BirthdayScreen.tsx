@@ -3,7 +3,7 @@ import React from 'react'
 import CustomHeader from '../../components/CustomHeader';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontSizes } from '../../utils/Fontsizes';
 import { AppStrings } from '../../utils/AppStrings';
 import { Colors } from '../../styles/Colors';
@@ -13,27 +13,28 @@ import CustomDateInput from '../../components/CustomDateInput';
 
 const BirthdayScreen = () => {
 
-    const {navigation, route} = useCustomAuthNavigation('BirthdayScreen');
+  const { navigation, route } = useCustomAuthNavigation('BirthdayScreen');
   return (
     <View style={GlobalStyles.mainContainer}>
       <CustomHeader
+        back
         onPress={() => {
           navigation.goBack();
         }}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'height' : 'padding'}
-        style={{flex: 1}}>
-        <View style={{paddingHorizontal: wp(10)}}>
-          <Text style={FontSizes.formHeader}>{AppStrings.birthDate}</Text>
-          <CustomDateInput/>
-          {/* <Text style={FontSizes.errorText}>{nameError}</Text> */}
+        style={{ flex: 1 }}>
+        <View style={GlobalStyles.formHeaderContainer}>
+          <Text style={GlobalStyles.formHeader}>{AppStrings.birthDate}</Text>
+          <CustomDateInput />
+          {/* <Text style={GlobalStyles.errorText}>{nameError}</Text> */}
         </View>
         <View style={GlobalStyles.floatingBtnContainer}>
           <CustomSecondarybutton
             title={AppStrings.continue}
             onPress={() => {
-              
+              navigation.navigate('GenderScreen')
             }}
           />
         </View>

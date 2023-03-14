@@ -6,29 +6,30 @@ import CustomTextInput from '../../components/CustomTextInput';
 import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
 import { GlobalStyles } from '../../styles/GlobalStyles';
 import CustomHeader from '../../components/CustomHeader';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontSizes } from '../../utils/Fontsizes';
 import { Colors } from '../../styles/Colors';
 
 
 const FirstNameScreen = () => {
 
-     const [name, setname] = useState('');
-     const [nameError, setnameError] = useState('');
-     const {navigation, route} = useCustomAuthNavigation('FirstNameScreen');
+  const [name, setname] = useState('');
+  const [nameError, setnameError] = useState('');
+  const { navigation, route } = useCustomAuthNavigation('FirstNameScreen');
 
   return (
     <View style={GlobalStyles.mainContainer}>
       <CustomHeader
+        back
         onPress={() => {
           navigation.goBack();
         }}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'height' : 'padding'}
-        style={{flex: 1}}>
+        style={{ flex: 1 }}>
         <View style={GlobalStyles.formHeaderContainer}>
-          <Text style={FontSizes.formHeader}>{AppStrings.myFirstName}</Text>
+          <Text style={GlobalStyles.formHeader}>{AppStrings.myFirstName}</Text>
           <CustomTextInput
             placeholder={AppStrings.firstName}
             value={name}
@@ -36,8 +37,8 @@ const FirstNameScreen = () => {
               setname(val);
             }}
           />
-          <Text style={FontSizes.errorText}>{nameError}</Text>
-          <Text style={{...FontSizes.infoText, color: Colors.grey}}>
+          <Text style={GlobalStyles.errorText}>{nameError}</Text>
+          <Text style={{ ...GlobalStyles.infoText, color: Colors.grey }}>
             {AppStrings.youWillNotable}
           </Text>
         </View>
@@ -45,9 +46,9 @@ const FirstNameScreen = () => {
           <CustomSecondarybutton
             title={AppStrings.continue}
             onPress={() => {
-              if(!name){
+              if (!name) {
                 setnameError(AppStrings.nameError)
-              }else{
+              } else {
                 navigation.navigate('BirthdayScreen')
               }
             }}

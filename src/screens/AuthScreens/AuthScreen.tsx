@@ -1,11 +1,11 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
-import {Images} from '../../utils/ImagePaths';
-import {AppStrings} from '../../utils/AppStrings';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import {Colors} from '../../styles/Colors';
-import {GlobalStyles} from '../../styles/GlobalStyles';
-import {FontSizes} from '../../utils/Fontsizes';
+import { Images } from '../../utils/ImagePaths';
+import { AppStrings } from '../../utils/AppStrings';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Colors } from '../../styles/Colors';
+import { GlobalStyles } from '../../styles/GlobalStyles';
+import { FontSizes } from '../../utils/Fontsizes';
 import CustomPrimaryButton from '../../components/CustomPrimaryButton';
 import CustomSecondarybutton from '../../components/CustomSecondarybutton';
 import {
@@ -13,8 +13,8 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 
-import {AuthStackParamList} from '../../types/NavigationTypes/navigationTypes';
-import {useNavigation} from '@react-navigation/native';
+import { AuthStackParamList } from '../../types/NavigationTypes/navigationTypes';
+import { useNavigation } from '@react-navigation/native';
 import { useCustomAuthNavigation, useCustomNavigation } from '../../navigation/hooks/useCustomNavigation';
 
 // type NavigationProps=NativeStackNavigationProp<AuthStackParamList,'AuthScreen'>
@@ -22,19 +22,19 @@ import { useCustomAuthNavigation, useCustomNavigation } from '../../navigation/h
 // type Props = NativeStackScreenProps<AuthStackParamList, 'AuthScreen'>;
 
 const AuthScreen = () => {
-    type NavigationProps = NativeStackNavigationProp<
-      AuthStackParamList,
-      'AuthScreen'
-    >;
-    
-    // const navigation = useNavigation<NavigationProps>();
-    const {navigation} = useCustomAuthNavigation('MobileNumberScreen');
+  type NavigationProps = NativeStackNavigationProp<
+    AuthStackParamList,
+    'AuthScreen'
+  >;
+
+  // const navigation = useNavigation<NavigationProps>();
+  const { navigation } = useCustomAuthNavigation('MobileNumberScreen');
 
   return (
     <View style={GlobalStyles.centerContainer}>
-      <Image source={Images.appLogo} resizeMode="contain" style={styles.img} />
-      <View style={{marginVertical: wp(10)}}>
-        <Text style={{...FontSizes.infoText,textAlign:'center'}}>
+      <Image source={Images.logoWithName} resizeMode="contain" style={styles.img} />
+      <View style={{ marginVertical: wp(10) }}>
+        <Text style={{ ...GlobalStyles.infoText, textAlign: 'center' }}>
           {AppStrings.byTapping}
           <Text style={GlobalStyles.underlinetxt}>{AppStrings.terms}</Text>
           <Text>{AppStrings.learnHow}</Text>
@@ -59,8 +59,8 @@ const AuthScreen = () => {
         title={AppStrings.signIn}
         onPress={() => {
           console.log('signin');
-        navigation.navigate('SignInScreen');
-       
+          navigation.navigate('MobileNumberScreen');
+
         }}
       />
     </View>
@@ -68,7 +68,10 @@ const AuthScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  img: {height: wp(70), width: wp(70)},
+  img: {
+    height: wp(70),
+    width: wp(70)
+  },
 });
 
 export default AuthScreen;

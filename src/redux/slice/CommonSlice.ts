@@ -1,12 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { colorTypes, darkThemeColors, lightThemeColors, redTemeColors } from '../../styles/Colors';
 
 interface initialStateTypes {
   isDarkMode: boolean;
-  // colors: ColorsTypes
+  colors: colorTypes
 }
 
 const INITIAL_STATE: initialStateTypes = {
   isDarkMode: false,
+  colors: lightThemeColors 
 };
 
 export const CommonSlice = createSlice({
@@ -15,7 +17,9 @@ export const CommonSlice = createSlice({
   reducers: {
     setTheme: (state, action) => {
       state.isDarkMode = action.payload;
-      //   state.colors = lightThemeColors;
+        state.colors = action.payload == "RED" ? 
+            redTemeColors: action.payload == "WHITE"?
+             lightThemeColors : darkThemeColors;
     },
   },
 });

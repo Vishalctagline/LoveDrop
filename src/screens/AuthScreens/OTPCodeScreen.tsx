@@ -5,7 +5,7 @@ import { GlobalStyles } from '../../styles/GlobalStyles';
 import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
 import CustomSecondarybutton from '../../components/CustomSecondarybutton';
 import { AppStrings } from '../../utils/AppStrings';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontSizes } from '../../utils/Fontsizes';
 import { Colors } from '../../styles/Colors';
 import CustomOTPInput from '../../components/CustomOTPInput';
@@ -14,39 +14,39 @@ const OTPCodeScreen = () => {
 
   const [otp, setotp] = useState('');
   const [otpError, setotpError] = useState('');
-    const {navigation,route} = useCustomAuthNavigation('OTPCodeScreen');
+  const { navigation, route } = useCustomAuthNavigation('OTPCodeScreen');
 
-    // console.log(route.params?.number);
-    let number = route.params?.number;
+  // console.log(route.params?.number);
+  let number = route.params?.number;
 
-    useEffect(() => {
-      setotp('')
-      setotpError('')
-    }, []);
+  useEffect(() => {
+    setotp('')
+    setotpError('')
+  }, []);
 
   return (
     <View style={GlobalStyles.mainContainer}>
       <CustomHeader
+        back
         onPress={() => {
           navigation.goBack();
         }}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'height' : 'padding'}
-        style={{flex: 1}}>
+        style={{ flex: 1 }}>
         <View style={GlobalStyles.formHeaderContainer}>
-          <Text style={FontSizes.formHeader}>{AppStrings.myCode}</Text>
+          <Text style={GlobalStyles.formHeader}>{AppStrings.myCode}</Text>
           <Text
             style={{
-              ...FontSizes.infoText,
+              ...GlobalStyles.infoText,
               color: Colors.grey,
-              marginVertical: wp(2),
             }}>
             {number}{' '}
-            <Text style={{color: Colors.black}}>{AppStrings.resend}</Text>
+            <Text style={{ color: Colors.PRIMART_TEXT }}>{AppStrings.resend}</Text>
           </Text>
           <CustomOTPInput onChangeText={setotp} />
-          <Text style={FontSizes.errorText}>{otpError}</Text>
+          <Text style={GlobalStyles.errorText}>{otpError}</Text>
         </View>
         <View style={GlobalStyles.floatingBtnContainer}>
           <CustomSecondarybutton
