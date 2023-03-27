@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react';
 import { useGlobalStyles } from '../../styles/GlobalStyles';
 import CustomHeader from '../../components/CustomHeader';
-import { useCustomAuthNavigation } from '../../navigation/hooks/useCustomNavigation';
+import { useCustomNavigation } from '../../navigation/hooks/useCustomNavigation';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontSizes } from '../../utils/Fontsizes';
 import { AppStrings } from '../../utils/AppStrings';
@@ -17,17 +17,20 @@ import CustomTextInput from '../../components/CustomTextInput';
 import { useAppSelector } from '../../redux/Store';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useRoute } from '@react-navigation/native';
+import { AuthRouteProps } from '../../types/NavigationTypes/navigationTypes';
 
 const EmailScreen = () => {
   const [email, setemail] = useState('');
   const [emailError, setemailError] = useState('');
   const [disabled, setdisabled] = useState(true);
-  const { navigation, route } = useCustomAuthNavigation('EmailScreen');
+  const { navigation } = useCustomNavigation('AuthStack');
+  const route = useRoute<AuthRouteProps<'EmailScreen'>>();
   const GlobalStyles = useGlobalStyles()
   const { colors } = useAppSelector(state => state.CommonSlice);
 
   const data = route.params?.data
-  console.log('data :  ', data)
+  // console.log('data :  ', data)
 
   const formik = useFormik({
     initialValues: {
@@ -46,10 +49,19 @@ const EmailScreen = () => {
       formik.resetForm()
       if (!formik.errors.email) {
         console.log('done ')
-        navigation.navigate('FirstNameScreen', {
-          data: {
-            ...data,
-            email: formik.values.email
+        // navigation.navigate('FirstNameScreen', {
+        //   data: {
+        //     ...data,
+        //     email: formik.values.email
+        //   }
+        // })
+        navigation.navigate('AuthStack', {
+          screen: 'FirstNameScreen',
+          params: {
+            data: {
+              ...data,
+              email: formik.values.email
+            }
           }
         })
       }
