@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGlobalStyles } from '../../styles/GlobalStyles'
 import GradiantHeader from '../../components/GradiantHeader'
 import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen'
@@ -9,11 +9,9 @@ import { Images } from '../../utils/ImagePaths'
 import CustomPrimaryButton from '../../components/CustomPrimaryButton'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useCustomNavigation } from '../../navigation/hooks/useCustomNavigation'
-import { userType } from '../../types/UserTypes/usertype'
 import { getUserData } from '../../utils/CommonFunctions'
-import auth from '@react-native-firebase/auth';
 import { setTheme } from '../../redux/slice/CommonSlice'
-import { getFirebaseuserData } from '../../utils/Firebase/constants'
+import { UserColRef, getFirebaseuserData } from '../../utils/Firebase/constants'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 // import { UserContext } from '../navigation/RootStack/RootStack'
 
@@ -52,10 +50,10 @@ const ProfileScreen = () => {
   const getData = async () => {
     // console.log('userData : ', userData)
     const usr = await getUserData()
-    console.log(usr)
+    // console.log(usr)
 
     let userData = (await getFirebaseuserData(usr.id)).data()
-    console.log('user data : ', userData)
+    // console.log('user data : ', userData)
     setuser(userData)
     setloading(false)
 
@@ -117,6 +115,12 @@ const ProfileScreen = () => {
                     //   screen: 'AuthScreen'
                     // })
                     // userData?.setUser({ firstName: 'logout' })
+
+
+                    UserColRef.doc(user?.id).update({
+                      FCMToken: ''
+                    })
+
                     navigation.reset({
                       routes: [{ name: 'AuthStack' }]
                     })

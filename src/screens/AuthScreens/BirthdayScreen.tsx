@@ -71,7 +71,7 @@ const BirthdayScreen = () => {
             onChangeText={
               // formik.handleChange('date')
               (val) => {
-                console.log(val)
+                // console.log(val)
                 if (val != '') {
                   setdisabled(false)
                 } else {

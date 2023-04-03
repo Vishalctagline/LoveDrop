@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useGlobalStyles } from '../../styles/GlobalStyles'
 import GradiantHeader from '../../components/GradiantHeader'
@@ -9,6 +9,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { useCustomNavigation } from '../../navigation/hooks/useCustomNavigation'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import CustomContactFlatList from '../../components/CustomContactFlatList'
+import { AppStrings } from '../../utils/AppStrings'
 // import { UserContext } from '../navigation/RootStack/RootStack'
 
 
@@ -20,9 +21,12 @@ const ChatScreen = () => {
     const styles = useStyles()
     const [chattedList, setchattedList] = useState<FirebaseFirestoreTypes.DocumentData[]>([]);
     const [loading, setloading] = useState(true);
+    const [isRefresh, setisRefresh] = useState(false);
 
     useEffect(() => {
-        getChattedList()
+        navigation.addListener('focus', () => {
+            getChattedList()
+        })
     }, []);
 
 
@@ -33,7 +37,7 @@ const ChatScreen = () => {
 
         let list: any = []
         ChatColRef.onSnapshot(querySnapshot => {
-            console.log("querySnapshot : ", querySnapshot.docs)
+            // console.log("querySnapshot : ", querySnapshot.docs)
             querySnapshot.forEach((documentSnapshot) => {
                 console.log("documentSnapshot : ", documentSnapshot.data().user1)
                 if (usr.id == documentSnapshot.data().user1) {
@@ -51,21 +55,22 @@ const ChatScreen = () => {
                 // console.log(qeurySnapshot.docs)
                 // let list: FirebaseFirestoreTypes.DocumentData[] = []
                 qeurySnapshot.forEach(documentSnapshot => {
-                    console.log('User : ', documentSnapshot.data())
+                    // console.log('User : ', documentSnapshot.data())
                     // if (documentSnapshot.data().id != usr.id) {
                     //     list.push(documentSnapshot.data())
                     // }
-                    console.log(list)
+                    // console.log(list)
                     list.forEach((item: any) => {
-                        console.log('chat : ', item)
+                        // console.log('chat : ', item)
                         if (item == documentSnapshot.data().id) {
                             chattedList.push(documentSnapshot.data())
                         }
                     })
                 })
-                console.log('chattedList : : ', chattedList)
+                // console.log('chattedList : : ', chattedList)
                 setchattedList(chattedList)
                 setloading(false)
+                setisRefresh(false)
             });
 
         })
@@ -76,11 +81,18 @@ const ChatScreen = () => {
         <View style={GlobalStyles.mainContainer}>
             <GradiantHeader />
             {
-                loading ? <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }} />
-                    :
-                    <CustomContactFlatList
-                        data={chattedList}
-                    />
+                loading
+                    ? <ActivityIndicator style={styles.centerItems} />
+                    : <ScrollView style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={isRefresh} onRefresh={getChattedList} />}>
+                        {chattedList.length
+                            ?
+                            <CustomContactFlatList
+                                data={chattedList}
+                            />
+                            :
+                            <View style={styles.centerItems}><Text>{AppStrings.noChatsFound}</Text></View>
+                        }
+                    </ScrollView>
             }
         </View>
     )
@@ -109,6 +121,7 @@ const useStyles = () => {
             resizeMode: 'cover',
             borderRadius: wp(50)
         },
+        centerItems: { flex: 1, justifyContent: 'center', alignItems: 'center' }
     })
 
 }

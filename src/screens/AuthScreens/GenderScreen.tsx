@@ -70,14 +70,14 @@ const GenderScreen = () => {
                     title={AppStrings.getStared}
                     onPress={() => {
                         const DATA = { ...data, gender: gender, image: '' }
-                        console.log('Data : ', DATA)
+                        // console.log('Data : ', DATA)
 
 
                         UserColRef
                             .doc(DATA.id)
                             .set(DATA)
                             .then(() => {
-                                console.log('User added!');
+                                // console.log('User added!');
                                 // Alert.alert('User added!')
                             });
 

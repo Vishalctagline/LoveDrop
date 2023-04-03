@@ -16,18 +16,18 @@ const ContactCard = ({ item }: any
     const { navigation } = useCustomNavigation('Home')
     const GlobalStyles = useGlobalStyles()
     const styles = useStyles()
-    console.log("item : ", item)
+    // console.log("item : ", item)
 
     const createChatRoom = async (userID: string) => {
         const user = await getUserData()
-        console.log('contact id : ', userID)
-        console.log('self id : ', user.id)
+        // console.log('contact id : ', userID)
+        // console.log('self id : ', user.id)
         // console.log('userID > user.id', userID < user.id)
 
         let ids: string[] = user.id ? [userID, user.id] : []
         ids = ids.sort((a: string, b: string) => a.localeCompare(b))
-        console.log(ids)
-        console.log(`doc : ${userID}-${user.id}`)
+        // console.log(ids)
+        // console.log(`doc : ${userID}-${user.id}`)
 
 
         // ChatColRef
@@ -58,7 +58,7 @@ const ContactCard = ({ item }: any
             .then(() => {
                 navigation.navigate('ChatRoomScreen', {
                     chatId: `${ids[0]}-${ids[1]}`,
-                    user: item
+                    user: item.id
                 })
             })
         //     }
@@ -117,19 +117,24 @@ const ContactCard = ({ item }: any
         //   })
     }
 
-    return (
-        <TouchableOpacity
-            // style={{ backgroundColor: 'blue' }} 
-            onPress={() => { createChatRoom(item.id) }}>
-            <View style={styles.contactCard}>
-                <Image source={item.image ? { uri: item.image } : Images.noProfile} style={styles.imgProfile} />
-                <View style={{ marginHorizontal: wp(2) }}>
-                    <Text style={GlobalStyles.contactName}>{item.firstName}</Text>
-                    <Text style={GlobalStyles.contactNumber}>{item.phoneNumber}</Text>
+    if (item) {
+
+        return (
+            <TouchableOpacity
+                // style={{ backgroundColor: 'blue' }} 
+                onPress={() => { createChatRoom(item.id) }}>
+                <View style={styles.contactCard}>
+                    <Image source={item.image ? { uri: item.image } : Images.noProfile} style={styles.imgProfile} />
+                    <View style={{ marginHorizontal: wp(2) }}>
+                        <Text style={GlobalStyles.contactName}>{item.firstName}</Text>
+                        <Text style={GlobalStyles.contactNumber}>{item.phoneNumber}</Text>
+                    </View>
                 </View>
-            </View>
-        </TouchableOpacity>
-    )
+            </TouchableOpacity>)
+    } else {
+        return null
+    }
+
 }
 
 const useStyles = () => {

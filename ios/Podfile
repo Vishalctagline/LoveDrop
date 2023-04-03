@@ -30,6 +30,7 @@ target 'LoveDrop' do
     # pod 'Firebase', :modular_headers => true
     # pod 'FirebaseCore', :modular_headers => true
     # # pod 'FirebaseStorage', :modular_headers => true
+#    pod 'FirebaseMessaging', :modular_headers => true
     # pod 'RNFBStorage', :path => '../node_modules/@react-native-firebase/storage'
     # pod 'FirebaseAppCheckInterop', :modular_headers => true
     # pod 'FirebaseAuthInterop', :modular_headers => true

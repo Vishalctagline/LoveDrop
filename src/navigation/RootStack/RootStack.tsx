@@ -12,6 +12,7 @@ import { getUserData } from '../../utils/CommonFunctions';
 import BottomTabbar from '../BottomTab/BottomTabbar';
 import ChatRoomScreen from '../../screens/ChatRoomScreen';
 import EditProfileScreen from '../../screens/EditProfileScreen';
+import messaging from '@react-native-firebase/messaging';
 
 // export type contextType = {
 //   User: userType,
@@ -31,6 +32,12 @@ const RootStack = () => {
 
   useEffect(() => {
     getUser()
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   console.log("root stack remoteMessage : ", remoteMessage)
+    //   // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    // });
+
+    // return unsubscribe;
   }, []);
 
   const getUser = async () => {

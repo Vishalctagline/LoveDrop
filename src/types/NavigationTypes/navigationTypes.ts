@@ -31,7 +31,8 @@ export type RootStackParamList = {
   // InboxScreen: undefined,
   // // ChatScreen: InboxMessageType
   Home: NavigatorScreenParams<BottomTabParamList>
-  ChatRoomScreen: { chatId: string, user: userType },
+  ChatRoomScreen: { chatId: string, user: string },
+  // ChatRoomScreen: { chatId: string, user: userType },
   EditProfileScreen: undefined
 };
 

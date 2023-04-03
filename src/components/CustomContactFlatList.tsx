@@ -21,31 +21,31 @@ const CustomContactFlatList: React.FC<Props> = ({ data }) => {
     const { navigation } = useCustomNavigation('Home')
 
 
-    const createChatRoom = async (userID: string, item: FirebaseFirestoreTypes.DocumentData) => {
-        const user = await getUserData()
-        console.log('contact id : ', userID)
-        console.log('self id : ', user.id)
-        // console.log('userID > user.id', userID < user.id)
+    // const createChatRoom = async (userID: string, item: FirebaseFirestoreTypes.DocumentData) => {
+    //     const user = await getUserData()
+    //     console.log('contact id : ', userID)
+    //     console.log('self id : ', user.id)
+    //     // console.log('userID > user.id', userID < user.id)
 
-        let ids: string[] = user.id ? [userID, user.id] : []
-        ids = ids.sort((a: string, b: string) => a.localeCompare(b))
-        console.log(ids)
-        console.log(`doc : ${userID}-${user.id}`)
+    //     let ids: string[] = user.id ? [userID, user.id] : []
+    //     ids = ids.sort((a: string, b: string) => a.localeCompare(b))
+    //     console.log(ids)
+    //     console.log(`doc : ${userID}-${user.id}`)
 
 
-        MessageColRef(`${ids[0]}-${ids[1]}`, false)
-            .get()
-            // .doc('test_chat_1')
-            // .set({
-            //   // msg: 'Hello.'
-            // })
-            .then(() => {
-                navigation.navigate('ChatRoomScreen', {
-                    chatId: `${ids[0]}-${ids[1]}`,
-                    user: item
-                })
-            })
-    }
+    //     MessageColRef(`${ids[0]}-${ids[1]}`, false)
+    //         .get()
+    //         // .doc('test_chat_1')
+    //         // .set({
+    //         //   // msg: 'Hello.'
+    //         // })
+    //         .then(() => {
+    //             navigation.navigate('ChatRoomScreen', {
+    //                 chatId: `${ids[0]}-${ids[1]}`,
+    //                 user: item
+    //             })
+    //         })
+    // }
 
     const itemSeparatorComponent = () => (
         <View style={styles.seperator} />

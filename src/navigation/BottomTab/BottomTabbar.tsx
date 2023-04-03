@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/BottomTabScreens/HomeScreen';
 import { BottomTabParamList } from '../../types/NavigationTypes/navigationTypes';
@@ -9,10 +9,25 @@ import { Images } from '../../utils/ImagePaths';
 import { useGlobalStyles } from '../../styles/GlobalStyles';
 import ChatScreen from '../../screens/BottomTabScreens/ChatScreen';
 import { useAppDispatch, useAppSelector } from '../../redux/Store';
+import messaging from '@react-native-firebase/messaging';
+
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabbar = () => {
+
+    useEffect(() => {
+
+        // const unsubscribe = messaging().onMessage(async remoteMessage => {
+        //     console.log("BottomTabbar remoteMessage : ", remoteMessage)
+
+        //     // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+        // });
+
+        // return unsubscribe;
+    }, []);
+
+
 
     const GlobalStyles = useGlobalStyles()
     const { colors } = useAppSelector(state => state.CommonSlice)

@@ -55,6 +55,8 @@ export const AppStrings = {
   anonymousBoySentNote: 'An Anonymous Boy Sent a Note',
   youSentNote: 'You sent Andrew a Note',
   editProfile: 'Edit Profile',
-  updateProfile: 'Update Profile'
+  updateProfile: 'Update Profile',
+  noChatsFound: 'No chats found',
+
 
 };

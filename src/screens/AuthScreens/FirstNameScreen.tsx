@@ -42,7 +42,7 @@ const FirstNameScreen = () => {
         .matches(/^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$/, AppStrings.nameError)
     }),
     onSubmit: val => {
-      console.log(val)
+      // console.log(val)
       formik.resetForm()
       if (!formik.errors.name) {
         // navigation.navigate('BirthdayScreen', {

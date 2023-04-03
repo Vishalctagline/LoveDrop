@@ -47,10 +47,10 @@ const EditProfileScreen = () => {
 
     const getData = () => {
         getUserData().then(async (usr) => {
-            console.log("usr : ", usr)
+            // console.log("usr : ", usr)
 
             let userData = (await getFirebaseuserData(usr.id)).data()
-            console.log('user data : ', userData)
+            // console.log('user data : ', userData)
 
             setphoneNumber(userData?.phoneNumber)
             setid(userData?.id)
@@ -90,7 +90,7 @@ const EditProfileScreen = () => {
 
     return (
         <View style={GlobalStyles.mainContainer}>
-            <GradiantHeader />
+            <GradiantHeader back />
             {
                 loading ? <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }} />
                     :
@@ -133,7 +133,7 @@ const EditProfileScreen = () => {
                                                         .ref(id + assets.fileName)
                                                         .getDownloadURL()
                                                         .then(url => {
-                                                            console.log('url : ', url)
+                                                            // console.log('url : ', url)
                                                             setimg_url(url)
                                                             setimg(url)
                                                         })
@@ -208,7 +208,7 @@ const EditProfileScreen = () => {
                                 valueField='value'
                                 value={gender}
                                 onChange={(val) => {
-                                    console.log(val)
+                                    // console.log(val)
                                     setgender(val)
                                 }}
                             />
@@ -249,7 +249,7 @@ const EditProfileScreen = () => {
                                     .doc(id)
                                     .update(DATA)
                                     .then(() => {
-                                        console.log('User updated!');
+                                        // console.log('User updated!');
                                         Alert.alert(AppStrings.appName, 'User updated!')
 
                                     });

@@ -18,6 +18,7 @@ import Contacts from 'react-native-contacts';
 import CustomContactFlatList from '../../components/CustomContactFlatList'
 import LinearGradient from 'react-native-linear-gradient'
 import MaskedView, { MaskedViewComponent } from '@react-native-masked-view/masked-view';
+import messaging from '@react-native-firebase/messaging';
 
 // import { UserContext } from '../navigation/RootStack/RootStack'
 
@@ -47,44 +48,65 @@ const HomeScreen = () => {
 
   const { navigation } = useCustomNavigation('Home')
 
-  useEffect(() => {
-    navigation.addListener('focus', () => {
 
-      getUserList()
-      reqestPermission()
-    })
-    getUserList()
-    reqestPermission()
+
+  useEffect(() => {
+    // navigation.addListener('focus', () => {
+    // getUserList()
+    // reqestPermission()
+    // })
     // console.log("userData : : home : : ", userData)
+    // getUserList()
+
+    reqestPermission()
+    getFCMToken()
+
+
+
 
   }, []);
 
-  const getUserList = async () => {
 
+  const getFCMToken = async () => {
     const usr = await getUserData()
     // console.log(usr)
-    // setuser(usr)
-
-    UserColRef.onSnapshot((qeurySnapshot) => {
-      // console.log(qeurySnapshot.docs)
-      let list: FirebaseFirestoreTypes.DocumentData[] = []
-      qeurySnapshot.forEach(documentSnapshot => {
-        // console.log('User : ', documentSnapshot.data())
-        if (documentSnapshot.data().id != usr.id) {
-          list.push(documentSnapshot.data())
-        }
+    messaging().getToken().then(tkn => {
+      console.log('TOKEN : ', tkn)
+      UserColRef.doc(usr.id).update({
+        FCMToken: tkn
       })
-      console.log('list : : ', list.length)
-      setuserList(list)
-    });
-    setisRefresh(false)
+    })
   }
+
+  // const getUserList = async () => {
+  //   console.log("getUserList : ")
+
+  //   const usr = await getUserData()
+  //   console.log(usr)
+  //   // setuser(usr)
+
+  //   UserColRef.onSnapshot((qeurySnapshot) => {
+  //     console.log(qeurySnapshot.docs)
+  //     let list: FirebaseFirestoreTypes.DocumentData[] = []
+  //     qeurySnapshot.forEach(documentSnapshot => {
+  //       // console.log('User : ', documentSnapshot.data())
+  //       if (documentSnapshot.data().id != usr.id) {
+  //         list.push(documentSnapshot.data())
+  //       }
+  //     })
+  //     console.log('list length : : ', list.length)
+  //     setuserList(list)
+  //     reqestPermission()
+  //     setisRefresh(false)
+  //   });
+  // }
 
 
   const reqestPermission = () => {
+    // console.log("reqestPermission : ")
     if (Platform.OS == 'android') {
       RequestContacts().then((granted) => {
-        console.log(granted)
+        // console.log(granted)
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           getContactList()
         } else {
@@ -94,16 +116,17 @@ const HomeScreen = () => {
       })
     } else if (Platform.OS == 'ios') {
       Contacts.checkPermission().then(permission => {
-        console.log(permission)
+        // console.log(permission)
         if (permission === 'undefined') {
           Contacts.requestPermission().then(permission => {
             console.log('Request permission : ', permission)
+            if (permission === 'authorized') {
+              getContactList()
+            }
           })
-        }
-        if (permission === 'authorized') {
+        } else if (permission === 'authorized') {
           getContactList()
-        }
-        if (permission === 'denied') {
+        } else if (permission === 'denied') {
           Alert.alert(AppStrings.appName, 'Permission to access contacts was denied',);
           console.warn('Permission to access contacts was denied');
           setisRefresh(false)
@@ -113,33 +136,69 @@ const HomeScreen = () => {
     setisRefresh(false)
   }
 
-  const getContactList = () => {
-    Contacts.getAll()
-      .then(contacts => {
-        let finalList: FirebaseFirestoreTypes.DocumentData[][] = []
-        console.log("contacts : ", contacts)
-        // setcontactList(contacts)
-        contacts.forEach((val) => {
-          // console.log(val.phoneNumbers)
-          val.phoneNumbers.forEach((val) => {
-            console.log('Number : ', val.number)
-            let num = val.number.replace(/[-\(\)\s]/g, '')
-            console.log('Formated Number : ', num)
+  const getContactList = async () => {
+    // console.log("getUserList : ")
 
-            let list = userList.filter((val) => val.phoneNumber == num)
-            if (list.length !== 0) {
-              console.log('list : : ', list)
-              finalList = finalList.concat(list)
+    let userlist: FirebaseFirestoreTypes.DocumentData[] = []
+
+    const usr = await getUserData()
+    // console.log(usr)
+    // setuser(usr)
+    UserColRef.onSnapshot((qeurySnapshot) => {
+      // console.log(qeurySnapshot.docs)
+      // let list: FirebaseFirestoreTypes.DocumentData[] = []
+      qeurySnapshot.forEach(documentSnapshot => {
+        console.log('UserColRef documentSnapshot  : ', documentSnapshot.data())
+        console.log('userlist : ', userlist)
+        if (documentSnapshot.data().id != usr.id) {
+          if (userlist.length) {
+            let temp = userlist.some(item => item.id == documentSnapshot.data().id)
+            if (!temp) {
+              userlist.push(documentSnapshot.data())
             }
-          })
-          console.log('FINAL LIST : ', finalList)
-          setfinalContactList(finalList)
-        })
+            // userlist.forEach(item => {
+            //   if (item.id !== documentSnapshot.data().id) {
+            //     userlist.push(documentSnapshot.data())
+            //   }
+            // })
+          } else {
+            userlist.push(documentSnapshot.data())
+          }
+        }
       })
-      .catch(e => {
-        Alert.alert(AppStrings.appName, 'Permission to access contacts was denied',);
-        console.warn('Permission to access contacts was denied');
-      });
+      console.log('list length : : ', userlist.length)
+      if (userlist.length) {
+        // console.log("getContactList :")
+        Contacts.getAll()
+          .then(contacts => {
+            let finalList: FirebaseFirestoreTypes.DocumentData[][] = []
+            // console.log("contacts : ", contacts)
+            // setcontactList(contacts)
+            contacts.forEach((val) => {
+              // console.log(val.phoneNumbers)
+              val.phoneNumbers.forEach((val) => {
+                // console.log('Number : ', val.number)
+                let num = val.number.replace(/[-\(\)\s]/g, '')
+                // console.log('Formated Number : ', num)
+
+                let list = userlist.filter((val) => val.phoneNumber == num)
+                if (list.length !== 0) {
+                  // console.log('list : : ', list)
+                  finalList = finalList.concat(list)
+                }
+              })
+              // console.log('FINAL LIST : ', finalList)
+              setfinalContactList(finalList)
+              setloading(false)
+            })
+          })
+          .catch(e => {
+            Alert.alert(AppStrings.appName, 'Permission to access contacts was denied',);
+            console.warn('Permission to access contacts was denied');
+          });
+      }
+    });
+
     setisRefresh(false)
     setloading(false)
   }
@@ -161,7 +220,7 @@ const HomeScreen = () => {
               <RefreshControl
                 refreshing={isRefresh}
                 onRefresh={() => {
-                  getUserList()
+                  // getUserList()
                   // getContactList()
                   reqestPermission()
                 }}
@@ -182,7 +241,12 @@ const HomeScreen = () => {
                 }}
                 valueField='value'
               />
-              <CustomTextInput placeholder={AppStrings.firstName} value={name} onChangeText={setname} background={colors.HOME_INPUT_BG} />
+              <CustomTextInput
+                placeholder={AppStrings.firstName}
+                value={name}
+                onChangeText={setname}
+                background={colors.HOME_INPUT_BG}
+              />
               <View style={styles.contactContainer}>
                 <Text style={GlobalStyles.infoSubTitle}>{AppStrings.byContact}</Text>
                 <CustomSearchField />

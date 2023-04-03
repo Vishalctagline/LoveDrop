@@ -45,10 +45,10 @@ const EmailScreen = () => {
         .matches(/^\w+([\..-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, AppStrings.emailError)
     }),
     onSubmit: val => {
-      console.log(val)
+      // console.log(val)
       formik.resetForm()
       if (!formik.errors.email) {
-        console.log('done ')
+        // console.log('done ')
         // navigation.navigate('FirstNameScreen', {
         //   data: {
         //     ...data,

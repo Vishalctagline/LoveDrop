@@ -78,23 +78,27 @@ const useStyles = () => {
 
     return StyleSheet.create({
         headerContainer: {
-            height: hp(13),
+            // width: '100%',
+            height: hp(12),
             alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'center',
             paddingTop: hp(5),
-            paddingHorizontal: wp(5),
-            zIndex: 1
+            paddingHorizontal: wp(3),
+            // zIndex: 1,
         },
         logo: {
-            width: wp(60),
+            flex: 1,
+            // width: wp(70),
             resizeMode: 'contain',
-            alignSelf: 'center'
+            alignSelf: 'center',
         },
         img: {
+            // flex: 1,
+            // backgroundColor: 'red',
             height: wp(8),
             width: wp(8),
-            resizeMode: 'contain'
+            resizeMode: 'contain',
         }
     })
 

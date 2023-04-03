@@ -57,7 +57,7 @@ const OTPCodeScreen = () => {
   let number = route.params?.data.phoneNumber;
   // let confirm = route.params?.data.confirm;
 
-  console.log('route.params : ', route.params)
+  // console.log('route.params : ', route.params)
 
 
 
@@ -71,8 +71,8 @@ const OTPCodeScreen = () => {
   const verifyOTP = async (OTP: string) => {
     try {
       const res = await confirm?.confirm(OTP);
-      console.log('otp result : ', res);
-      console.log('USER : ', res?.user);
+      // console.log('otp result : ', res);
+      // console.log('USER : ', res?.user);
 
       const data = await UserColRef.doc(res?.user.uid).get()
       console.log("isExists  : ", data.exists)
@@ -171,7 +171,7 @@ const OTPCodeScreen = () => {
             onChangeText={
               // formik.handleChange('otp')
               (val) => {
-                console.log('otp : ', val)
+                // console.log('otp : ', val)
                 // if (val != '') {
                 //   setdisabled(false)
                 // } else {
@@ -179,7 +179,7 @@ const OTPCodeScreen = () => {
                 // }
 
                 if (val.length < 6) {
-                  console.log('lemgth :', val.length)
+                  // console.log('length :', val.length)
                   setdisabled(true)
                 } else {
                   setdisabled(false)
@@ -191,13 +191,14 @@ const OTPCodeScreen = () => {
           <Text style={GlobalStyles.errorText}>{otpError}</Text>
         </View>
         <View style={GlobalStyles.floatingBtnContainer}>
+
           <CustomSecondarybutton
             disabled={disabled}
             title={AppStrings.continue}
             onPress={
               () => {
                 // formik.handleSubmit()
-                console.log(otp);
+                // console.log(otp);
                 let reg = /^\d+$/
                 if (!otp || !reg.test(otp)) {
                   setotpError(AppStrings.otpError);
